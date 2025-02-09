@@ -1,16 +1,16 @@
-#In all found files replace old_string with new_string
+# From mountpoint / In all found files replace old_string with new_string this example is DANGEGROUS because ./ means in entire filesystem
 find ./ -type f -exec sed -i 's/old_string/new_string/gI' {} \;
 
-#rename Howto RHEL,RHEL clones, Fedora
+# Rename multiple files in distros like: RHEL,RHEL clones, Fedora
 rename Old New OldName*
 
-#encrypt symmetric AES
+# Encrypt file with symmetric AES cypher
 gpg --symmetric --cipher-algo AES256 file.txt
 
-#ffmpeg cutting video
-#cut using specified time
+# ffmpeg cutting video
+# cut using specified time
 ffmpeg -i input.mp4 -ss 00:05:10 -to 00:15:30 -c:v copy -c:a copy output2.mp4
-#cut using duration
+# cut using duration
 ffmpeg -i input.mp4 -ss 00:05:20 -t 00:10:00 -c:v copy -c:a copy output1.mp4
 
 # Test if postfix user can read /etc/resolv.conf file
@@ -131,3 +131,6 @@ lspci | grep 'Virtual Function' | wc -l
 
 # set keyboard to slovak keyboard with variant qwerty
 localectl set-x11-keymap sk variant qwerty
+
+# Custom lsblk showing most usefull "accourding to author" columns of lsblk command
+lsblk -o MODEL,KNAME,SIZE,MOUNTPOINT,FSTYPE,UUID
