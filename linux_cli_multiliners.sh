@@ -124,13 +124,32 @@ grubby --update-kernel ALL --args iommu=pt
 dracut -f --kver $(uname -r)
 # After the machine the changes to your /etc/default/grub you'll need to make the changes perminent by typing
 grub2-mkconfig -o /boot/grub2/grub.cfg
-# Create 64 Vfs
+
+# SRIOV
+# Create 64 Vfs on device enp7s0f0
 echo 64 > /sys/class/net/enp7s0f0/device/sriov_numvfs
 # verify that there are 64 of them
 lspci | grep 'Virtual Function' | wc -l
 
-# set keyboard to slovak keyboard with variant qwerty
+# set keyboard to slovak keyboard variant qwerty only works if you X11 installed
 localectl set-x11-keymap sk variant qwerty
 
-# Custom lsblk showing most usefull "accourding to author" columns of lsblk command
+# Custom lsblk showing disk model, device name from /dev/* directory, size, mountpoint, file system type, UUID
 lsblk -o MODEL,KNAME,SIZE,MOUNTPOINT,FSTYPE,UUID
+
+# test if user postfix can resolve example.com
+sudo -u postfix -H dig example.com @192.168.1.1
+# test inf user postfix can read /etc/resolv.conf
+sudo -u postfix -H cat /etc/resolv.conf
+
+# send test message via email useful for mail debugging
+echo "$HOSTNAME" | mailx -s "$HOSTNAME" username@example.com
+
+# ping multiple hosts using fping utility
+fping -c 3 192.168.1.50 192.168.1.51
+
+# stress test on all cpus using aggressive flag will print temperature result and lasts 24 hours
+stress-ng --cpu 0 --aggressive -t 24h --tz
+
+# use lgogdownloader to download your games from GOG. Download save serials download only english langugage, all optional downloads and for windows and linux
+lgogdownloader --save-serials --language en --include all –download –platform w+l
